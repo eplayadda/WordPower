@@ -135,11 +135,12 @@ public class ConnectionManager : MonoBehaviour
 	List <string> usersID = new List<string>();
 
 	// Sending Request
-	public void OnSendRequest(string i)
+	public void OnSendRequest(string pTablePrice)
 	{
 		usersID.Clear();
 		usersID.Add(myID);
 		usersID.Add(friedID);
+		usersID.Add(pTablePrice);
 		Debug.Log(myID+"Send Request"+friedID);
 		signalRConnection[HUB_NAME].Call("SendRequest",usersID);
 	}
@@ -149,8 +150,9 @@ public class ConnectionManager : MonoBehaviour
 	{
 		Debug.Log ("Request came");
 		var str = msg.Arguments [0] as object[];
-		friedID =str[0].ToString();
-		UIManager.instance.OnSendRequest ();
+		friedID = str[0].ToString();
+		int tablePrice =Convert.ToInt32(str[2].ToString());
+		UIManager.instance.OnSendRequest (tablePrice);
 
 	}
 

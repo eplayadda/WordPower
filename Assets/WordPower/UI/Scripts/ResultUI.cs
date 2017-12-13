@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class ResultUI : MonoBehaviour {
 	UIManager uiManager;
-
+	GameManager gameManager;
 	void Start()
 	{
+		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
 	}
 	public Text meNumber;
@@ -17,12 +18,15 @@ public class ResultUI : MonoBehaviour {
 	{
 		meNumber.text = pMyNum + "";
 		friendNumber.text = pFriendNum + "";
-		if (pMyNum > pFriendNum)
+		if (pMyNum > pFriendNum) {
+			gameManager.availableCoin += gameManager.tablePrice;
 			msgTxt.text = "You Won";
-		else if(pFriendNum > pMyNum)
+		} else if (pFriendNum > pMyNum) {
+			gameManager.availableCoin -= gameManager.tablePrice;
 			msgTxt.text = "You Los";
-		else
+		} else {
 			msgTxt.text = "Draw";
+		}
 	}
 
 	public void OnMenuButtonClicked()
