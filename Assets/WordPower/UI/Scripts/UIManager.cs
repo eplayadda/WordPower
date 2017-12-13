@@ -25,9 +25,10 @@ public class UIManager : MonoBehaviour {
 		loginPanel.GetComponent<LoginUI>().LoginDone();
 	}
 
-	public void OnSendRequest()
+	public void OnSendRequest(int pTablePrice)
 	{
 		Debug.Log ("Invte Panel");
+		GameManager.instace.tablePrice = pTablePrice;
 		gameInvitePanel.SetActive (true);
 	}
 

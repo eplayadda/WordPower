@@ -36,12 +36,12 @@ public class RoomUI : MonoBehaviour
 	{
 		uiManager = UIManager.instance;
 	}
-	public void CreateRoom()
+	public void CreateRoom(int pTablePrice)
 	{
 		Reset ();
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
-		ConnectionManager.Instance.OnSendRequest ("0");
+		ConnectionManager.Instance.OnSendRequest (pTablePrice+"");
 		questionPanal.SetActive (false);
 		startGamePanel.SetActive (true);
 		startGameBtn.interactable = false;

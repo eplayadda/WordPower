@@ -10,9 +10,12 @@ public class LobbyPanelUI : MonoBehaviour {
 	int totalCoin = 700;
 	int minTableVal = 100;
 	UIManager uiManager;
+	GameManager gameManager;
 	void Start()
 	{
+		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
+		totalCoin = gameManager.availableCoin;
 		OnTablePriceClicked (true);
 	}
 
@@ -38,7 +41,8 @@ public class LobbyPanelUI : MonoBehaviour {
 	{
 		uiManager.lobbyPanel.SetActive (false);
 		uiManager.roomPanel.SetActive (true);
-		uiManager.roomPanel.GetComponent<RoomUI> ().CreateRoom ();
+		gameManager.tablePrice = matchValue;
+		uiManager.roomPanel.GetComponent<RoomUI> ().CreateRoom (matchValue);
 	}
 
 	public void OnTablePriceClicked(bool isIncress)

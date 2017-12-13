@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour {
 	}
 	public static GameManager instace;
 	public eRoomStatus currRoomStatus;
-
+	public int availableCoin;
+	public int tablePrice;
 	void Awake()
 	{
 		if (instace == null)
