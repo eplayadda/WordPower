@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class FacebookHandler : MonoBehaviour
 {
+	public GameObject FriendPrefab;
+	public Transform parentObject;
+
 	private string userId;
 	//private Texture profilePic;
 	//string appStoreLink = "https://play.google.com/store/apps/details?id=com.eplayadda.mindssmash";
@@ -88,7 +91,7 @@ public class FacebookHandler : MonoBehaviour
 	private void FBLoginCallBack (ILoginResult result)
 	{
 		if (result.Error == null) {
-			Debug.Log ("LoginSuccess");
+			Debug.Log ("LoginSuccess" + result.RawResult);
 			var token = Facebook.Unity.AccessToken.CurrentAccessToken;
 			userId = token.UserId.ToString ();
 			ConnectionManager.Instance.myID = userId;
@@ -99,6 +102,96 @@ public class FacebookHandler : MonoBehaviour
 		}
 
 	}
+
+	public void GetFriends ()
+	{
+		if (FB.IsLoggedIn) {
+			FB.API ("me?fields=id,name,friends.limit(20){first_name,picture}", HttpMethod.GET, this.GetFreindCallback);
+		} else {
+			LoginForFriendsList ();
+		}
+
+	}
+
+	private void LoginForFriendsList ()
+	{
+		FB.LogInWithReadPermissions (new List<string> (){ "public_profile", "email", "user_friends" }, this.FBLoginGetFriendCallBack);
+		FB.LogInWithPublishPermissions (new List<string> () { "publish_actions" }, this.FBLoginGetFriendCallBack);
+	}
+
+	void FBLoginGetFriendCallBack (ILoginResult result)
+	{
+		if (string.IsNullOrEmpty (result.Error)) {
+			GetFriends ();
+		}	
+	}
+
+	void GetFreindCallback (IResult result)
+	{
+		string resposne = result.RawResult;
+		Debug.Log (resposne);
+		var data = (Dictionary<string, object>)result.ResultDictionary;
+		var tagData = data ["friends"] as Dictionary<string,object>;
+		var resultData = tagData ["data"] as List<object>;
+		//Debug.Log (tagData ["first_name"].ToString ());
+		for (int i = 0; i < resultData.Count; i++) {
+			var resultValue = resultData [i] as Dictionary<string, object>;
+			var picture = resultValue ["picture"] as Dictionary<string ,object>;
+			var picData = picture ["data"] as Dictionary<string,object>;
+			string url = picData ["url"].ToString ();
+			Debug.Log ("url : " + url);
+			GameObject g = Instantiate (FriendPrefab) as GameObject;
+			g.SetActive (true);
+			g.transform.SetParent (parentObject);
+			g.transform.localScale = Vector3.one;
+			g.transform.position = Vector3.zero;
+			g.GetComponent<FriendsDetails> ().Name.text = resultValue ["first_name"].ToString ();
+			Button btn = g.GetComponentInChildren<Button> ();
+			Debug.Log (resultValue ["first_name"].ToString () + "  , " + resultValue ["id"].ToString ());
+			string id = resultValue ["id"].ToString ();
+			g.GetComponent<FriendsDetails> ().ID = System.Convert.ToInt64 (id);
+			AddListener (btn, id);
+			if (!string.IsNullOrEmpty (id)) {
+				FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
+					if (avatarResult.Error != null) {
+						Debug.Log (avatarResult.Error);
+					} else {
+
+						g.GetComponent<FriendsDetails> ().ProfilePic.sprite = Sprite.Create (avatarResult.Texture, new Rect (0, 0, 128, 128), new Vector2 (0.5f, 0.5f));
+						;
+					}
+				});
+			}
+		}
+	}
+
+	private void AddListener (Button btn, string fbID)
+	{
+		btn.onClick.AddListener (() => SetFriendsId (fbID));
+	}
+	//	private void OnGUI ()
+	//	{
+	//		if (GUI.Button (new Rect (100, 100, 100, 50), "Login")) {
+	//			Login ();
+	//		}
+	//
+	//		if (GUI.Button (new Rect (100, 200, 100, 50), "GetFriends")) {
+	//			GetFriends ();
+	//		}
+	//
+	//		if (GUI.Button (new Rect (100, 300, 100, 50), "Invite")) {
+	//			AppRequest ();
+	//		}
+	//	}
+
+	public void SetFriendsId (string id)
+	{
+		ConnectionManager.Instance.friedID = id;
+		Debug.Log ("SetFriendsId : " + id);
+		UIManager.instance.friendsListPanel.SetActive (false);
+
+	}
+
 	//Share On Facebook.
 	public void OnFacebookShare ()
 	{

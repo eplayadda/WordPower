@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyPanelUI : MonoBehaviour {
+public class LobbyPanelUI : MonoBehaviour
+{
 	public Text tableCoinTxt;
 	public Text totalCoinTxt;
 	int matchValue;
@@ -11,7 +12,8 @@ public class LobbyPanelUI : MonoBehaviour {
 	int minTableVal = 100;
 	UIManager uiManager;
 	GameManager gameManager;
-	void Start()
+
+	void Start ()
 	{
 		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
@@ -19,25 +21,25 @@ public class LobbyPanelUI : MonoBehaviour {
 		OnTablePriceClicked (true);
 	}
 
-	public void OnBackSelected()
+	public void OnBackSelected ()
 	{
 		uiManager.lobbyPanel.SetActive (false);
 		uiManager.gameModePanel.SetActive (true);
 
 	}
 
-	public void OnStorePageClicked()
+	public void OnStorePageClicked ()
 	{
 		uiManager.storePanel.SetActive (true);
 	}
 
 
-	public void OnVideoAddClicked()
+	public void OnVideoAddClicked ()
 	{
 
 	}
 
-	public void OnCreateRoom()
+	public void OnCreateRoom ()
 	{
 		uiManager.lobbyPanel.SetActive (false);
 		uiManager.roomPanel.SetActive (true);
@@ -45,7 +47,7 @@ public class LobbyPanelUI : MonoBehaviour {
 		uiManager.roomPanel.GetComponent<RoomUI> ().CreateRoom (matchValue);
 	}
 
-	public void OnTablePriceClicked(bool isIncress)
+	public void OnTablePriceClicked (bool isIncress)
 	{
 		if (isIncress) {
 			matchValue += minTableVal;
@@ -70,7 +72,7 @@ public class LobbyPanelUI : MonoBehaviour {
 		}
 	}
 
-	bool CheckCoinLimit()
+	bool CheckCoinLimit ()
 	{
 		if (totalCoin >= 0 && matchValue >= minTableVal) {
 			return true;
@@ -78,5 +80,11 @@ public class LobbyPanelUI : MonoBehaviour {
 			return false;
 		}
 			
+	}
+
+	public void OnClickInviteFriend ()
+	{
+		uiManager.friendsListPanel.SetActive (true);
+		SocialManager.Instance.facebookManager.GetFriends ();
 	}
 }

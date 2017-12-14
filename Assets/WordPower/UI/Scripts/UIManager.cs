@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour {
+public class UIManager : MonoBehaviour
+{
 	public static UIManager instance;
 	public GameObject loading;
 	public GameObject loginPanel;
@@ -14,45 +15,47 @@ public class UIManager : MonoBehaviour {
 	public GameObject resultPanel;
 	public GameObject storePanel;
 	public GameObject gameInvitePanel;
-	void Awake()
+	public GameObject friendsListPanel;
+
+	void Awake ()
 	{
 		if (instance == null)
 			instance = this;
 	}
 
-	public void OnSignalRConnected()
+	public void OnSignalRConnected ()
 	{
-		loginPanel.GetComponent<LoginUI>().LoginDone();
+		loginPanel.GetComponent<LoginUI> ().LoginDone ();
 	}
 
-	public void OnSendRequest(int pTablePrice)
+	public void OnSendRequest (int pTablePrice)
 	{
 		Debug.Log ("Invte Panel");
 		GameManager.instace.tablePrice = pTablePrice;
 		gameInvitePanel.SetActive (true);
 	}
 
-	public void OnChallangeAccepted()
+	public void OnChallangeAccepted ()
 	{
 		roomPanel.GetComponent<RoomUI> ().MakeInteractable ();
 	}
 
-	public void OnGameStartOnServer()
+	public void OnGameStartOnServer ()
 	{
 		roomPanel.GetComponent<RoomUI> ().StartTest (false);
 	}
 
-	public void FriendAnswer(string pdata)
+	public void FriendAnswer (string pdata)
 	{
 		roomPanel.GetComponent<RoomUI> ().FriendAnwer (pdata);
 	}
 
-	public void FriendGameOver()
+	public void FriendGameOver ()
 	{
 		roomPanel.GetComponent<RoomUI> ().OnGameOver ();
 	}
 
-	public void DesableAllPanels()
+	public void DesableAllPanels ()
 	{
 		loginPanel.SetActive (false);
 		gameModePanel.SetActive (false);
