@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomUI : MonoBehaviour 
+public class RoomUI : MonoBehaviour
 {
 	UIManager uiManager;
-	public GameObject questionPanal; 
+	public GameObject questionPanal;
 	public Text qNoTxt;
 	public Text quesTxt;
 	public Text opt1;
@@ -32,49 +32,63 @@ public class RoomUI : MonoBehaviour
 	char lastAns;
 	int frindCrrAns;
 	int frindAllAns;
-	void Start()
+
+	void Start ()
 	{
 		uiManager = UIManager.instance;
+
 	}
-	public void CreateRoom(int pTablePrice)
+
+	public void CreateRoom (int pTablePrice)
 	{
 		Reset ();
+		if (UIManager.instance != null) {
+			Debug.Log ("UpdateImage");
+			myPic.sprite = UIManager.instance.GetUserProfilePic ();
+		}
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
-		ConnectionManager.Instance.OnSendRequest (pTablePrice+"");
+		ConnectionManager.Instance.OnSendRequest (pTablePrice + "");
 		questionPanal.SetActive (false);
 		startGamePanel.SetActive (true);
 		startGameBtn.interactable = false;
 		startGameBtn.gameObject.SetActive (true);
-
 	}
 
-	public void CreateRoomBySerevr()
+	public void CreateRoomBySerevr ()
 	{
 		Reset ();
-		DownFrindImage ();
+		if (UIManager.instance != null) {
+			Debug.Log ("UpdateImage");
+			myPic.sprite = UIManager.instance.GetUserProfilePic ();
+		}
+		frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
 		questionPanal.SetActive (false);
 		startGamePanel.SetActive (true);
-		startGameBtn.gameObject.SetActive(false);
+		startGameBtn.gameObject.SetActive (false);
 
 	}
 
-	void DownFrindImage()
+	void DownFrindImage ()
 	{
 		addFriendBtn.gameObject.SetActive (false);
 		frndPic.transform.parent.gameObject.SetActive (true);
 		myPic.transform.parent.gameObject.SetActive (true);
+		frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
+
 	}
 
-	public void MakeInteractable()
+	public void MakeInteractable ()
 	{
 		DownFrindImage ();
 		startGameBtn.interactable = true;
+
 	}
 
-	public void StartTest(bool isOwner){
+	public void StartTest (bool isOwner)
+	{
 		if (isOwner) {
 			ConnectionManager.Instance.OnServerGameStart ();
 			questionPanal.SetActive (true);
@@ -88,29 +102,29 @@ public class RoomUI : MonoBehaviour
 
 	}
 
-	public void TimeUp()
+	public void TimeUp ()
 	{
 		Debug.Log ("Time UP");
 		CheckAnswer (lastAns);
 		int tAns = wrongAns + rightAns;
-		ConnectionManager.Instance.OnSendMeAnswer (lastAns+"");
-		myAnsCount.text = tAns+ "";
+		ConnectionManager.Instance.OnSendMeAnswer (lastAns + "");
+		myAnsCount.text = tAns + "";
 		currQuestion++;
 		SetQuestionInUI (currQuestion);
 	}
-	// 
-	public void OnGameOver()
+	//
+	public void OnGameOver ()
 	{
 		timmer.ResetClock ();
 		UIManager.instance.resultPanel.SetActive (true);
-		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns,frindCrrAns);
+		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
 
 	}
 
 
-	public void FriendAnwer(string pData)
+	public void FriendAnwer (string pData)
 	{
-		CheckFriendAnswer (pData[0]);
+		CheckFriendAnswer (pData [0]);
 		currFrndQuestion++;
 		frndAnsCount.text = frindAllAns + "";
 		Debug.Log ("TimeUp Rec");
@@ -118,20 +132,19 @@ public class RoomUI : MonoBehaviour
 			timmer.ResetClock ();
 			UIManager.instance.resultPanel.SetActive (true);
 			GameManager.instace.currRoomStatus = GameManager.eRoomStatus.gameOver;
-			UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns,frindCrrAns);
+			UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
 			return;
 		}
 	}
 
-	public void OnAnswerSelected(Toggle a)
+	public void OnAnswerSelected (Toggle a)
 	{
-		if (a.isOn) 
-		{
+		if (a.isOn) {
 			lastAns = a.name [0];
 		}
 	}
 
-	void SetQuestionInUI(int pQ)
+	void SetQuestionInUI (int pQ)
 	{
 		if (pQ >= questionList.Count) {
 			timmer.ResetClock ();
@@ -145,55 +158,50 @@ public class RoomUI : MonoBehaviour
 		}
 		toggleGrp.allowSwitchOff = false;
 
-		qNoTxt.text = (pQ+1)+"";
+		qNoTxt.text = (pQ + 1) + "";
 		quesTxt.text = questionList [pQ].Question;
 		opt1.text = questionList [pQ].O_1;
 		opt2.text = questionList [pQ].O_2;
 		opt3.text = questionList [pQ].O_3;
 		opt4.text = questionList [pQ].O_4;
-	 	timmer.PlayClock ();
+		timmer.PlayClock ();
 	}
 
-	void CheckAnswer(char str)
+	void CheckAnswer (char str)
 	{
 		int ans = System.Convert.ToInt32 (str) - 64;
-		if (questionList [currQuestion ].A == ans+"") {
+		if (questionList [currQuestion].A == ans + "") {
 			rightAns++;
-		} 
-		else if("5" == ans+"")
-		{
+		} else if ("5" == ans + "") {
 			unAns++;
-		}
-		else {
+		} else {
 			wrongAns++;
 		}
 	}
 
-	void CheckFriendAnswer(char str)
+	void CheckFriendAnswer (char str)
 	{
 		int ans = System.Convert.ToInt32 (str) - 64;
-		if (questionList [currFrndQuestion ].A == ans+"") {
+		if (questionList [currFrndQuestion].A == ans + "") {
 			frindCrrAns++;
 			frindAllAns++;
-		} 
-		else if("5" == ans+"")
-		{
+		} else if ("5" == ans + "") {
 			//unAns++;
-		}
-		else {
+		} else {
 			frindAllAns++;
 			//wrongAns++;
 		}
 	}
-	public void OnBackSelected()
+
+	public void OnBackSelected ()
 	{
 		GameManager.instace.currRoomStatus = GameManager.eRoomStatus.gameOver;
 		ConnectionManager.Instance.OnGameOverSendData ();
 		uiManager.resultPanel.SetActive (true);
-		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns,frindCrrAns);
+		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
 	}
 
-	void Reset()
+	void Reset ()
 	{
 		currFrndQuestion = 0;
 		currQuestion = 0;
@@ -204,5 +212,11 @@ public class RoomUI : MonoBehaviour
 		frindCrrAns = 0;
 		myAnsCount.text = "0";
 		frndAnsCount.text = "0";
+	}
+
+	public void DisplayFriendsList ()
+	{
+		uiManager.friendsListPanel.SetActive (true);
+		SocialManager.Instance.facebookManager.GetFriends ();
 	}
 }

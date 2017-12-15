@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class UIManager : MonoBehaviour
 	public GameObject storePanel;
 	public GameObject gameInvitePanel;
 	public GameObject friendsListPanel;
+	public Image playerProfilePic;
+
+	private Sprite profilePic;
 
 	void Awake ()
 	{
@@ -66,5 +70,37 @@ public class UIManager : MonoBehaviour
 		resultPanel.SetActive (false);
 		storePanel.SetActive (false);
 		gameInvitePanel.SetActive (false);
+	}
+
+	public void UpdateFrindProfilePic (Sprite frindPic)
+	{
+		lobbyPanel.GetComponent<LobbyPanelUI> ().UpdateProfilePic (frindPic);
+
+	}
+
+	public void UpdateProfilePic (string playeUrl)
+	{
+		StartCoroutine (DownloadImage (playeUrl));
+	}
+
+	IEnumerator DownloadImage (string url)
+	{
+		WWW www = new WWW (url);
+		yield return www;
+		Texture2D tex = www.texture;
+		profilePic = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
+		playerProfilePic.sprite = profilePic;
+		Debug.Log ("Done");
+	}
+
+	public Sprite GetUserProfilePic ()
+	{
+		return profilePic;
+	}
+
+
+	public void OnCloseFrindsList ()
+	{
+		friendsListPanel.SetActive (false);
 	}
 }

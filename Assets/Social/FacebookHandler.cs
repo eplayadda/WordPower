@@ -12,6 +12,9 @@ public class FacebookHandler : MonoBehaviour
 	public GameObject FriendPrefab;
 	public Transform parentObject;
 
+	//public GameObject FriendPrefabRoom;
+	//public Transform parentRoom;
+
 	private string userId;
 	//private Texture profilePic;
 	//string appStoreLink = "https://play.google.com/store/apps/details?id=com.eplayadda.mindssmash";
@@ -189,7 +192,31 @@ public class FacebookHandler : MonoBehaviour
 		ConnectionManager.Instance.friedID = id;
 		Debug.Log ("SetFriendsId : " + id);
 		UIManager.instance.friendsListPanel.SetActive (false);
+		FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
+			if (avatarResult.Error != null) {
+				Debug.Log (avatarResult.Error);
+			} else {
 
+				UIManager.instance.UpdateFrindProfilePic (Sprite.Create (avatarResult.Texture, new Rect (0, 0, 128, 128), new Vector2 (0.5f, 0.5f)));
+
+			}
+		});
+
+	}
+
+	public Sprite GetImageByID (string id)
+	{
+		Sprite sprite = null;
+		FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
+			if (avatarResult.Error != null) {
+				Debug.Log (avatarResult.Error);
+			} else {
+
+				sprite = Sprite.Create (avatarResult.Texture, new Rect (0, 0, 128, 128), new Vector2 (0.5f, 0.5f));
+
+			}
+		});
+		return sprite;
 	}
 
 	//Share On Facebook.
@@ -218,43 +245,45 @@ public class FacebookHandler : MonoBehaviour
 		}
 	}
 
-	//	public void PlayerInfo ()
-	//	{
-	//		Debug.Log ("GetPlayerInfo");
-	//		string queryString = "/me?fields=id,first_name,picture.width(120).height(120)";
-	//		FB.API (queryString, HttpMethod.GET, GetPlayerInfoCallback);
-	//	}
+	public void PlayerInfo ()
+	{
+		Debug.Log ("GetPlayerInfo");
+		string queryString = "/me?fields=id,first_name,picture.width(128).height(128)";
+		FB.API (queryString, HttpMethod.GET, GetPlayerInfoCallback);
+	}
 
 	//	string firstName = "";
 	//
-	//	private void GetPlayerInfoCallback (IGraphResult result)
-	//	{
-	//		Debug.Log ("GetPlayerInfoCallback");
-	//		if (result.Error != null) {
-	//			Debug.LogError (result.Error);
-	//			return;
-	//		}
-	//		Debug.Log (result.RawResult);
-	//
-	//		//Dictionary<string,object> resultData = (Dictionary<string,object>)result.ResultDictionary;
-	//		//firstName = resultData ["first_name"].ToString ();
-	//		//string playerImgUrl = DeserializePictureURL (result.ResultDictionary);
-	//		//GetScoreFB ();
-	//	}
+	private void GetPlayerInfoCallback (IGraphResult result)
+	{
+		Debug.Log ("GetPlayerInfoCallback");
+		if (result.Error != null) {
+			Debug.LogError (result.Error);
+			return;
+		}
+		Debug.Log (result.RawResult);
+	
+		Dictionary<string,object> resultData = (Dictionary<string,object>)result.ResultDictionary;
+		//firstName = resultData ["first_name"].ToString ();
+		string playerImgUrl = DeserializePictureURL (result.ResultDictionary);
+		Debug.Log ("playerImgUrl " + playerImgUrl);
+		UIManager.instance.UpdateProfilePic (playerImgUrl);
+		//GetScoreFB ();
+	}
 
 
 
-	//	public static string DeserializePictureURL (object userObject)
-	//	{
-	//		var user = userObject as Dictionary<string, object>;
-	//
-	//		object pictureObj;
-	//		if (user.TryGetValue ("picture", out pictureObj)) {
-	//			var pictureData = (Dictionary<string, object>)(((Dictionary<string, object>)pictureObj) ["data"]);
-	//			return (string)pictureData ["url"];
-	//		}
-	//		return null;
-	//	}
+	public static string DeserializePictureURL (object userObject)
+	{
+		var user = userObject as Dictionary<string, object>;
+	
+		object pictureObj;
+		if (user.TryGetValue ("picture", out pictureObj)) {
+			var pictureData = (Dictionary<string, object>)(((Dictionary<string, object>)pictureObj) ["data"]);
+			return (string)pictureData ["url"];
+		}
+		return null;
+	}
 
 	public bool IsFbLogedin ()
 	{

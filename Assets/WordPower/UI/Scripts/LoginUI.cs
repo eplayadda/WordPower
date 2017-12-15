@@ -25,6 +25,7 @@ public class LoginUI : MonoBehaviour
 		uiManager.loading.SetActive (false);
 		uiManager.loginPanel.SetActive (false);
 		uiManager.gameModePanel.SetActive (true);
+		SocialManager.Instance.facebookManager.PlayerInfo ();
 	}
 
 	public void OnGuestLogin ()

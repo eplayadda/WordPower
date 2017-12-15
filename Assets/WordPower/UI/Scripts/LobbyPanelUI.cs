@@ -7,6 +7,8 @@ public class LobbyPanelUI : MonoBehaviour
 {
 	public Text tableCoinTxt;
 	public Text totalCoinTxt;
+
+	public Image friendProfilePic;
 	int matchValue;
 	int totalCoin = 700;
 	int minTableVal = 100;
@@ -87,4 +89,11 @@ public class LobbyPanelUI : MonoBehaviour
 		uiManager.friendsListPanel.SetActive (true);
 		SocialManager.Instance.facebookManager.GetFriends ();
 	}
+
+	public void UpdateProfilePic (Sprite frndProfile)
+	{
+		friendProfilePic.sprite = frndProfile;
+	}
+
+
 }
