@@ -62,7 +62,7 @@ public class RoomUI : MonoBehaviour
 			Debug.Log ("UpdateImage");
 			myPic.sprite = UIManager.instance.GetUserProfilePic ();
 		}
-	//	frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
+		SocialManager.Instance.facebookManager.DownloadImageByID (ConnectionManager.Instance.friedID);
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
 		questionPanal.SetActive (false);
@@ -77,7 +77,7 @@ public class RoomUI : MonoBehaviour
 		addFriendBtn.gameObject.SetActive (false);
 		frndPic.transform.parent.gameObject.SetActive (true);
 		myPic.transform.parent.gameObject.SetActive (true);
-		frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
+		SocialManager.Instance.facebookManager.DownloadImageByID (ConnectionManager.Instance.friedID);
 
 	}
 

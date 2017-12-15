@@ -204,20 +204,21 @@ public class FacebookHandler : MonoBehaviour
 
 	}
 
-	public Sprite GetImageByID (string id)
+
+	public void DownloadImageByID (string id)
 	{
-		Sprite sprite = null;
+		Debug.Log ("ID " + id);
 		FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
 			if (avatarResult.Error != null) {
 				Debug.Log (avatarResult.Error);
 			} else {
 
-				sprite = Sprite.Create (avatarResult.Texture, new Rect (0, 0, 128, 128), new Vector2 (0.5f, 0.5f));
+				UIManager.instance.roomPanel.GetComponent<RoomUI> ().frndPic.sprite = Sprite.Create (avatarResult.Texture, new Rect (0, 0, 128, 128), new Vector2 (0.5f, 0.5f));
 
 			}
 		});
-		return sprite;
 	}
+
 
 	//Share On Facebook.
 	public void OnFacebookShare ()

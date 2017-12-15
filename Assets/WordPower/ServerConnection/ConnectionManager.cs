@@ -17,36 +17,38 @@ using System.Collections.Generic;
 public class ConnectionManager : MonoBehaviour
 {
 	public static ConnectionManager Instance;
-	string HUB_NAME ="SignalRDemo";
+	string HUB_NAME = "SignalRDemo";
 	string CLIENTID = "ClientId";
 	string GETREQUEST = "GetRequest";
 	string ACK_CONNECTED = "receiveAcknowledgement";
 	string CHALLENGEACCEPTED = "ChallengeAccepted";
 	string INPUTRECIVEC = "OnInputRecived";
-	string baseUrl = "http://52.11.67.198/SignalRDemo/";// "http://localhost:1921/SignalRDemo";// "http://52.33.40.224/SignalRDemo";//"http://localhost:1921/SignalRDemo";
-//	string baseUrl = "http://localhost:1921/SignalRDemo/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
+	string baseUrl = "http://52.11.67.198/SignalRDemo/";
+// "http://localhost:1921/SignalRDemo";// "http://52.33.40.224/SignalRDemo";//"http://localhost:1921/SignalRDemo";
+	//	string baseUrl = "http://localhost:1921/SignalRDemo/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
 	public string myID = "1";
-	public string friedID ="1";
+	public string friedID = "1";
+
 	public enum SignalRConectionStatus
 	{
 		None = 0,
 		DisConnected,
 		Connected,
 	}
+
 	private SignalRConectionStatus curSignalRConectionStatus;
 	public static Connection signalRConnection;
 	public static Hub _newHub;
 	public Coroutine signalRCoroutine;
-	void Awake()
+
+	void Awake ()
 	{
 		PlayerPrefs.DeleteAll ();
-		if (Instance == null)
-		{
+		if (Instance == null) {
 			Instance = this;
-			DontDestroyOnLoad(this.gameObject);
-		} else
-		{
-			DestroyImmediate(this.gameObject);
+			DontDestroyOnLoad (this.gameObject);
+		} else {
+			DestroyImmediate (this.gameObject);
 			return;
 		}
 		//MakeConnection ();
@@ -98,10 +100,14 @@ public class ConnectionManager : MonoBehaviour
 	{
 
 	}
-	void OnApplicationQuit()
+
+	void OnApplicationQuit ()
 	{
-		signalRConnection.Close();
-		Debug.Log("Application Quit");
+		if (signalRConnection != null) {
+			signalRConnection.Close ();
+			signalRConnection = null;
+		}
+		Debug.Log ("Application Quit");
 	}
 
 
@@ -132,105 +138,104 @@ public class ConnectionManager : MonoBehaviour
 		signalRConnection [HUB_NAME].On (CHALLENGEACCEPTED, ChallengeAccepted);
 		signalRConnection [HUB_NAME].On (INPUTRECIVEC, OnInputRecived);
 	}
-	List <string> usersID = new List<string>();
+
+	List <string> usersID = new List<string> ();
 
 	// Sending Request
-	public void OnSendRequest(string pTablePrice)
+	public void OnSendRequest (string pTablePrice)
 	{
-		usersID.Clear();
-		usersID.Add(myID);
-		usersID.Add(friedID);
-		usersID.Add(pTablePrice);
-		Debug.Log(myID+"Send Request"+friedID);
-		signalRConnection[HUB_NAME].Call("SendRequest",usersID);
+		usersID.Clear ();
+		usersID.Add (myID);
+		usersID.Add (friedID);
+		usersID.Add (pTablePrice);
+		Debug.Log (myID + "Send Request" + friedID);
+		signalRConnection [HUB_NAME].Call ("SendRequest", usersID);
 	}
 
 	// Request Came
-	public void OnReceiveMatchDetails(Hub hub, MethodCallMessage msg)
+	public void OnReceiveMatchDetails (Hub hub, MethodCallMessage msg)
 	{
 		Debug.Log ("Request came");
 		var str = msg.Arguments [0] as object[];
-		friedID = str[0].ToString();
-		int tablePrice =Convert.ToInt32(str[2].ToString());
+		friedID = str [0].ToString ();
+		int tablePrice = Convert.ToInt32 (str [2].ToString ());
 		UIManager.instance.OnSendRequest (tablePrice);
 
 	}
 
-	public void IacceptChallage()
+	public void IacceptChallage ()
 	{
-		usersID.Clear();
-		usersID.Add(myID);
-		usersID.Add(friedID);
-		signalRConnection[HUB_NAME].Call("IacceptedChallenge",usersID);
+		usersID.Clear ();
+		usersID.Add (myID);
+		usersID.Add (friedID);
+		signalRConnection [HUB_NAME].Call ("IacceptedChallenge", usersID);
 
 
 	}
-	public void ChallengeAccepted(Hub hub, MethodCallMessage msg)
+
+	public void ChallengeAccepted (Hub hub, MethodCallMessage msg)
 	{
 		UIManager.instance.OnChallangeAccepted ();
 	}
-	List <string> inputData = new List<string>();
 
-	public void OnServerGameStart()
+	List <string> inputData = new List<string> ();
+
+	public void OnServerGameStart ()
 	{
-		inputData.Clear();
-		inputData.Add(friedID);
-		inputData.Add("");
-		inputData.Add(3+"");
-		signalRConnection[HUB_NAME].Call("InPutTaken",inputData);
-	}
-	public void OnSendMeAnswer(string ansCount)
-	{
-		inputData.Clear();
-		inputData.Add(friedID);
-		inputData.Add(ansCount);
-		inputData.Add(0+"");
-		signalRConnection[HUB_NAME].Call("InPutTaken",inputData);
+		inputData.Clear ();
+		inputData.Add (friedID);
+		inputData.Add ("");
+		inputData.Add (3 + "");
+		signalRConnection [HUB_NAME].Call ("InPutTaken", inputData);
 	}
 
-	public void OnGameOverSendData()
+	public void OnSendMeAnswer (string ansCount)
+	{
+		inputData.Clear ();
+		inputData.Add (friedID);
+		inputData.Add (ansCount);
+		inputData.Add (0 + "");
+		signalRConnection [HUB_NAME].Call ("InPutTaken", inputData);
+	}
+
+	public void OnGameOverSendData ()
 	{
 		//Game Over
-		inputData.Clear();
-		inputData.Add(friedID);
-		inputData.Add("");
-		inputData.Add(1+"");
-		signalRConnection[HUB_NAME].Call("InPutTaken",inputData);
+		inputData.Clear ();
+		inputData.Add (friedID);
+		inputData.Add ("");
+		inputData.Add (1 + "");
+		signalRConnection [HUB_NAME].Call ("InPutTaken", inputData);
 	}
-	public void OnInputRecived(Hub hub, MethodCallMessage msg)
+
+	public void OnInputRecived (Hub hub, MethodCallMessage msg)
 	{
 		var str = msg.Arguments [0] as object[];
-		Debug.Log(str[2].ToString());
+		Debug.Log (str [2].ToString ());
 
 
-		if (str[2].ToString() == "0")
-		{
+		if (str [2].ToString () == "0") {
 			if (GameManager.instace.currRoomStatus == GameManager.eRoomStatus.play) {
-				string a = str[1].ToString();
-				UIManager.instance.FriendAnswer(a);
+				string a = str [1].ToString ();
+				UIManager.instance.FriendAnswer (a);
 			}
 
-		}
-		else if(str[2].ToString() == "1")
-		{
+		} else if (str [2].ToString () == "1") {
 			//int a = Convert.ToInt32(str[1]);
-			UIManager.instance.FriendGameOver();
-		}
-		else if(str[2].ToString() == "2")
-		{
-		}
-		else if(str[2].ToString() == "3")
-		{
+			UIManager.instance.FriendGameOver ();
+		} else if (str [2].ToString () == "2") {
+		} else if (str [2].ToString () == "3") {
 			if (GameManager.instace.currRoomStatus != GameManager.eRoomStatus.play) {
 				UIManager.instance.OnGameStartOnServer ();
 				Debug.Log ("3333");
 			}
 		}
 	}
-	public void Ack(Hub hub, MethodCallMessage msg)
+
+	public void Ack (Hub hub, MethodCallMessage msg)
 	{
 		UIManager.instance.OnSignalRConnected ();
-		Debug.Log("Ack");
+		Debug.Log ("Ack");
 	}
 
 
