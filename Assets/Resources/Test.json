@@ -1,82 +1,162 @@
 ﻿[
   {
-    "Question": "Skinny",
-    "O_1": "Small",
-    "O_2": "Little",
-    "O_3": "Thin",
-    "O_4": "Strong",
-    "A": "3"
-  },
-  {
-    "Question": "Weird",
-    "O_1": "Strange",
-    "O_2": "Great",
-    "O_3": "Calm",
-    "O_4": "Typical",
-    "A": "1"
-  },
-  {
-    "Question": "Rich",
-    "O_1": "Correct",
-    "O_2": "Different",
-    "O_3": "Wealthy",
-    "O_4": "Good",
-    "A": "3"
-  },
-  {
-    "Question": "Scared",
-    "O_1": "Happy",
-    "O_2": "Sad",
-    "O_3": "Angry",
-    "O_4": "Afraid",
-    "A": "4"
-  },
-  {
-    "Question": "Smart",
-    "O_1": "Dumb",
-    "O_2": "Wide",
-    "O_3": "Intelligent",
-    "O_4": "Old",
-    "A": "3"
-  },
-  {
-    "Question": "Sure",
-    "O_1": "Likely",
-    "O_2": "Doubtful",
-    "O_3": "Certain",
-    "O_4": "Smart",
-    "A": "3"
-  },
-  {
-    "Question": "Angry",
-    "O_1": "Happy",
-    "O_2": "Mad",
-    "O_3": "Tired",
-    "O_4": "Sad",
+    "Question": "Remote",
+    "O_1": "automatic",
+    "O_2": "distant",
+    "O_3": "savage",
+    "O_4": "mean",
     "A": "2"
   },
   {
-    "Question": "Amazing",
-    "O_1": "Small",
-    "O_2": "Irregular",
-    "O_3": "Crazy",
-    "O_4": "Incredible",
-    "A": "4"
+    "Question": "detest",
+    "O_1": "argue",
+    "O_2": "hate",
+    "O_3": "discover",
+    "O_4": "reveal",
+    "A": "2"
   },
   {
-    "Question": "Fair",
-    "O_1": "Equal",
-    "O_2": "Large",
-    "O_3": "Soft",
-    "O_4": "False",
+    "Question": "gracious",
+    "O_1": "pretty",
+    "O_2": "clever",
+    "O_3": "pleasant",
+    "O_4": "present",
+    "A": "3"
+  },
+  {
+    "Question": "predict",
+    "O_1": "foretell",
+    "O_2": "decide",
+    "O_3": "prevent",
+    "O_4": "discover",
     "A": "1"
   },
   {
-    "Question": "Huge",
-    "O_1": "Light",
-    "O_2": "Hard",
-    "O_3": "Tiny",
-    "O_4": "Giant",
+    "Question": "kin",
+    "O_1": "exult",
+    "O_2": "twist",
+    "O_3": "friend",
+    "O_4": "relative",
+    "A": "4"
+  },
+  {
+    "Question": "pensive",
+    "O_1": "oppressed",
+    "O_2": "caged",
+    "O_3": "thoughtful",
+    "O_4": "happy",
+    "A": "3"
+  },
+  {
+    "Question": "banish",
+    "O_1": "exile",
+    "O_2": "hate",
+    "O_3": "fade",
+    "O_4": "clean",
+    "A": "1"
+  },
+  {
+    "Question": "fraud",
+    "O_1": "malcontent",
+    "O_2": "argument",
+    "O_3": "imposter",
+    "O_4": "clown",
+    "A": "3"
+  },
+  {
+    "Question": "saccharine",
+    "O_1": "leave",
+    "O_2": "sweet",
+    "O_3": "arid",
+    "O_4": "quit",
+    "A": "2"
+  },
+  {
+    "Question": "drag",
+    "O_1": "sleepy",
+    "O_2": "crush",
+    "O_3": "proud",
+    "O_4": "pull",
+    "A": "4"
+  },
+  {
+    "Question": "jovial",
+    "O_1": "incredulous",
+    "O_2": "merry",
+    "O_3": "revolting",
+    "O_4": "dizzy",
+    "A": "2"
+  },
+  {
+    "Question": "indifferent",
+    "O_1": "neutral",
+    "O_2": "unkind",
+    "O_3": "precious",
+    "O_4": "mean",
+    "A": "1"
+  },
+  {
+    "Question": "simulate",
+    "O_1": "excite",
+    "O_2": "imitate",
+    "O_3": "trick",
+    "O_4": "apelike",
+    "A": "2"
+  },
+  {
+    "Question": "charisma",
+    "O_1": "ghost",
+    "O_2": "force",
+    "O_3": "charm",
+    "O_4": "courage",
+    "A": "3"
+  },
+  {
+    "Question": "apportion",
+    "O_1": "divide",
+    "O_2": "decide",
+    "O_3": "cut",
+    "O_4": "squabble",
+    "A": "1"
+  },
+  {
+    "Question": "generic",
+    "O_1": "general",
+    "O_2": "cheap",
+    "O_3": "fresh",
+    "O_4": "elderly",
+    "A": "1"
+  },
+  {
+    "Question": "qualm",
+    "O_1": "distress",
+    "O_2": "impunity",
+    "O_3": "persevere",
+    "O_4": "scruple",
+    "A": "4"
+  },
+  {
+    "Question": "wary",
+    "O_1": "calm",
+    "O_2": "curved",
+    "O_3": "confused",
+    "O_4": "cautious",
+    "A": "4"
+  },
+  {
+    "Question": "distort",
+    "O_1": "wrong",
+    "O_2": "evil",
+    "O_3": "deform",
+    "O_4": "harm",
+    "A": "3"
+  },
+  {
+    "Question": "sumptuous",
+    "O_1": "delirious",
+    "O_2": "gorgeous",
+    "O_3": "perilous",
+    "O_4": "luxurious",
     "A": "4"
   }
 ]

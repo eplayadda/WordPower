@@ -62,12 +62,13 @@ public class RoomUI : MonoBehaviour
 			Debug.Log ("UpdateImage");
 			myPic.sprite = UIManager.instance.GetUserProfilePic ();
 		}
-		frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
+	//	frndPic.sprite = SocialManager.Instance.facebookManager.GetImageByID (ConnectionManager.Instance.friedID);
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
 		questionPanal.SetActive (false);
 		startGamePanel.SetActive (true);
 		startGameBtn.gameObject.SetActive (false);
+		DownFrindImage ();
 
 	}
 
