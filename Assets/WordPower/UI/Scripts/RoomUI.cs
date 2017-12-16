@@ -32,7 +32,7 @@ public class RoomUI : MonoBehaviour
 	char lastAns;
 	int frindCrrAns;
 	int frindAllAns;
-
+	List<int> myAns = new List<int>(); 
 	void Start ()
 	{
 		uiManager = UIManager.instance;
@@ -118,7 +118,7 @@ public class RoomUI : MonoBehaviour
 	{
 		timmer.ResetClock ();
 		UIManager.instance.resultPanel.SetActive (true);
-		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
+		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns,myAns);
 
 	}
 
@@ -133,7 +133,7 @@ public class RoomUI : MonoBehaviour
 			timmer.ResetClock ();
 			UIManager.instance.resultPanel.SetActive (true);
 			GameManager.instace.currRoomStatus = GameManager.eRoomStatus.gameOver;
-			UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
+			UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns,myAns);
 			return;
 		}
 	}
@@ -178,6 +178,7 @@ public class RoomUI : MonoBehaviour
 		} else {
 			wrongAns++;
 		}
+		myAns.Add (ans);
 	}
 
 	void CheckFriendAnswer (char str)
@@ -199,7 +200,7 @@ public class RoomUI : MonoBehaviour
 		GameManager.instace.currRoomStatus = GameManager.eRoomStatus.gameOver;
 		ConnectionManager.Instance.OnGameOverSendData ();
 		uiManager.resultPanel.SetActive (true);
-		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns);
+		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns,myAns);
 	}
 
 	void Reset ()
