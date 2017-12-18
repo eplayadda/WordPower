@@ -205,6 +205,7 @@ public class RoomUI : MonoBehaviour
 
 	void Reset ()
 	{
+		timmer.ResetClock ();
 		currFrndQuestion = 0;
 		currQuestion = 0;
 		rightAns = 0;

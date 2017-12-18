@@ -30,4 +30,5 @@ public class AntoQuestion
 	public string O_3;
 	public string O_4;
 	public string A;
+	public string Explain;
 }

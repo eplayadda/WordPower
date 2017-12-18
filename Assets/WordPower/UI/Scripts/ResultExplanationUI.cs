@@ -6,7 +6,7 @@ public class ResultExplanationUI : MonoBehaviour {
 	public GameObject questionPrefab;
 	public Transform content;
 	List <AntoQuestion> questionList;
-
+	List<GameObject> allQuestGo = new List<GameObject>();
 	UIManager uiManager;
 	void OnEnable()
 	{
@@ -15,6 +15,7 @@ public class ResultExplanationUI : MonoBehaviour {
 
 	public void Explaion(List<int> pMyAns)
 	{
+		gameObject.SetActive (true);
 		QuestionExplanation currQues = new QuestionExplanation ();
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		for (int i = 0; i < questionList.Count; i++) {
@@ -23,21 +24,32 @@ public class ResultExplanationUI : MonoBehaviour {
 			go.SetActive (true);
 			go.transform.localScale = Vector3.one;
 			go.transform.localPosition= Vector3.zero;
+			allQuestGo.Add (go);
 			QuestionExplanationUI qUI = go.GetComponent<QuestionExplanationUI> ();
-			currQues.qNo = i + "";
+			currQues.qNo = (i + 1) + "";
 			currQues.ques = questionList [i].Question;
 			currQues.opt1 = questionList [i].O_1;
 			currQues.opt2 = questionList [i].O_2;
 			currQues.opt3 = questionList [i].O_3;
 			currQues.opt4 = questionList [i].O_4;
-//			currQues.explation = questionList [i].;
+			currQues.explation = questionList [i].Explain;
 			currQues.currAns = System.Convert.ToInt32( questionList [i].A);
-		//	currQues.urAns = pMyAns [i];
+			if (i < pMyAns.Count) {
+				currQues.urAns = pMyAns [i];
+			} else {
+				currQues.urAns = 5;
+			}
 			qUI.SetDataInUI (currQues);
 		}
 
 	}
-
+	public void OnBackBtn()
+	{
+		gameObject.SetActive (false);
+		foreach (GameObject item in allQuestGo) {
+			Destroy (item);
+		}
+	}
 }
 
 public class QuestionExplanation

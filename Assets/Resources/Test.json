@@ -1,11 +1,12 @@
-﻿[
+[
   {
     "Question": "Remote",
     "O_1": "automatic",
     "O_2": "distant",
     "O_3": "savage",
     "O_4": "mean",
-    "A": "2"
+    "A": "2",
+    "Explain": "b. remote means faraway, or distant"
   },
   {
     "Question": "detest",
@@ -13,7 +14,8 @@
     "O_2": "hate",
     "O_3": "discover",
     "O_4": "reveal",
-    "A": "2"
+    "A": "2",
+    "Explain": "b. to detest means to feel intense or violent dislike, or to hate"
   },
   {
     "Question": "gracious",
@@ -21,7 +23,8 @@
     "O_2": "clever",
     "O_3": "pleasant",
     "O_4": "present",
-    "A": "3"
+    "A": "3",
+    "Explain": "c. gracious means to be pleasant or considerate in social interactions"
   },
   {
     "Question": "predict",
@@ -29,7 +32,8 @@
     "O_2": "decide",
     "O_3": "prevent",
     "O_4": "discover",
-    "A": "1"
+    "A": "1",
+    "Explain": "a. to predict means to declare in advance or to foretell"
   },
   {
     "Question": "kin",
@@ -37,7 +41,8 @@
     "O_2": "twist",
     "O_3": "friend",
     "O_4": "relative",
-    "A": "4"
+    "A": "4",
+    "Explain": "d. kin means people with common ancestors, or relatives"
   },
   {
     "Question": "pensive",
@@ -45,7 +50,8 @@
     "O_2": "caged",
     "O_3": "thoughtful",
     "O_4": "happy",
-    "A": "3"
+    "A": "3",
+    "Explain": "c. pensive means moodily or dreamily thoughtful"
   },
   {
     "Question": "banish",
@@ -53,7 +59,8 @@
     "O_2": "hate",
     "O_3": "fade",
     "O_4": "clean",
-    "A": "1"
+    "A": "1",
+    "Explain": "a. to banish means to drive out from home or country, or to exile"
   },
   {
     "Question": "fraud",
@@ -61,7 +68,8 @@
     "O_2": "argument",
     "O_3": "imposter",
     "O_4": "clown",
-    "A": "3"
+    "A": "3",
+    "Explain": "c. a fraud is someone who is not what he or she pretends to be, or an imposter"
   },
   {
     "Question": "saccharine",
@@ -69,7 +77,8 @@
     "O_2": "sweet",
     "O_3": "arid",
     "O_4": "quit",
-    "A": "2"
+    "A": "2",
+    "Explain": ". b. saccharine means overly sweet"
   },
   {
     "Question": "drag",
@@ -77,7 +86,8 @@
     "O_2": "crush",
     "O_3": "proud",
     "O_4": "pull",
-    "A": "4"
+    "A": "4",
+    "Explain": "d. to drag is to pull, or to cause movement in a direction with applied force"
   },
   {
     "Question": "jovial",
@@ -85,7 +95,8 @@
     "O_2": "merry",
     "O_3": "revolting",
     "O_4": "dizzy",
-    "A": "2"
+    "A": "2",
+    "Explain": "b. jovial means good humored or merry"
   },
   {
     "Question": "indifferent",
@@ -93,7 +104,8 @@
     "O_2": "unkind",
     "O_3": "precious",
     "O_4": "mean",
-    "A": "1"
+    "A": "1",
+    "Explain": "a. to be indifferent is to be marked by impartiality or to be neutral"
   },
   {
     "Question": "simulate",
@@ -101,7 +113,8 @@
     "O_2": "imitate",
     "O_3": "trick",
     "O_4": "apelike",
-    "A": "2"
+    "A": "2",
+    "Explain": "b. to simulate is to assume the outward appearance of, or to imitate"
   },
   {
     "Question": "charisma",
@@ -109,7 +122,8 @@
     "O_2": "force",
     "O_3": "charm",
     "O_4": "courage",
-    "A": "3"
+    "A": "3",
+    "Explain": "c. charisma is magnetic charm or appeal\n"
   },
   {
     "Question": "apportion",
@@ -117,7 +131,8 @@
     "O_2": "decide",
     "O_3": "cut",
     "O_4": "squabble",
-    "A": "1"
+    "A": "1",
+    "Explain": "a. to apportion is to divide and share out"
   },
   {
     "Question": "generic",
@@ -125,7 +140,8 @@
     "O_2": "cheap",
     "O_3": "fresh",
     "O_4": "elderly",
-    "A": "1"
+    "A": "1",
+    "Explain": "a. generic means having the characteristic of a whole group,or general"
   },
   {
     "Question": "qualm",
@@ -133,7 +149,8 @@
     "O_2": "impunity",
     "O_3": "persevere",
     "O_4": "scruple",
-    "A": "4"
+    "A": "4",
+    "Explain": "d. a qualm is a feeling of uneasiness about a moral issue, or ascruple"
   },
   {
     "Question": "wary",
@@ -141,7 +158,8 @@
     "O_2": "curved",
     "O_3": "confused",
     "O_4": "cautious",
-    "A": "4"
+    "A": "4",
+    "Explain": "d. wary means to be attentive especially to danger, or to be cautious"
   },
   {
     "Question": "distort",
@@ -149,7 +167,8 @@
     "O_2": "evil",
     "O_3": "deform",
     "O_4": "harm",
-    "A": "3"
+    "A": "3",
+    "Explain": "c. to distort means to twist out of a normal state, or to deform"
   },
   {
     "Question": "sumptuous",
@@ -157,6 +176,7 @@
     "O_2": "gorgeous",
     "O_3": "perilous",
     "O_4": "luxurious",
-    "A": "4"
+    "A": "4",
+    "Explain": "d. sumptuous means excessively costly, rich, or luxurious"
   }
 ]
