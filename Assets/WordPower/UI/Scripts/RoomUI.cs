@@ -116,6 +116,7 @@ public class RoomUI : MonoBehaviour
 	//
 	public void OnGameOver ()
 	{
+		GameManager.instace.currRoomStatus = GameManager.eRoomStatus.gameOver;
 		timmer.ResetClock ();
 		UIManager.instance.resultPanel.SetActive (true);
 		UIManager.instance.resultPanel.GetComponent<ResultUI> ().SetReportCart (rightAns, frindCrrAns,myAns);
