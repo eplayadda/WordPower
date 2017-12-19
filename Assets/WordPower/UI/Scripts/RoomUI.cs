@@ -52,7 +52,7 @@ public class RoomUI : MonoBehaviour
 		}
 		questionList = AntoNsynoTestPaper.instace.GetQuestionFromDB ();
 		currQuestion = 0;
-		ConnectionManager.Instance.OnSendRequest (pTablePrice + "");
+		ConnectionManager.Instance.OnSendRequest (pTablePrice + "",gameManager.currSubjectType+"");
 		questionPanal.SetActive (false);
 		startGamePanel.SetActive (true);
 		startGameBtn.interactable = false;
