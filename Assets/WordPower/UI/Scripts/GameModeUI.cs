@@ -18,8 +18,10 @@ public class GameModeUI : MonoBehaviour {
 
 	public void OnPlayBtnSelected()
 	{
+	//	uiManager.gameModePanel.SetActive (false);
+	//	uiManager.lobbyPanel.SetActive (true);
 		uiManager.gameModePanel.SetActive (false);
-		uiManager.lobbyPanel.SetActive (true);
+		uiManager.subjectSelectionForTestPanel.SetActive (true);
 	}
 
 

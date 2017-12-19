@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 	public eRoomStatus currRoomStatus;
 	public int availableCoin;
 	public int tablePrice;
+	public int currSubjectType;
+	public string[] allSubjectType;
 	void Awake()
 	{
 		if (instace == null)

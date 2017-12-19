@@ -7,7 +7,7 @@ public class LobbyPanelUI : MonoBehaviour
 {
 	public Text tableCoinTxt;
 	public Text totalCoinTxt;
-
+	public Text testTypeTxt;
 	public Image friendProfilePic;
 	int matchValue;
 	int totalCoin = 700;
@@ -15,10 +15,11 @@ public class LobbyPanelUI : MonoBehaviour
 	UIManager uiManager;
 	GameManager gameManager;
 
-	void Start ()
+	void OnEnable ()
 	{
 		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
+		testTypeTxt.text = "Play "+gameManager.allSubjectType[gameManager.currSubjectType]+" with Friends";
 		totalCoin = gameManager.availableCoin;
 		OnTablePriceClicked (true);
 	}
@@ -26,7 +27,7 @@ public class LobbyPanelUI : MonoBehaviour
 	public void OnBackSelected ()
 	{
 		uiManager.lobbyPanel.SetActive (false);
-		uiManager.gameModePanel.SetActive (true);
+		uiManager.subjectSelectionForTestPanel.SetActive (true);
 
 	}
 

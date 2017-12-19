@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class RoomUI : MonoBehaviour
 {
 	UIManager uiManager;
+	GameManager gameManager;
+
 	public GameObject questionPanal;
+	public Text qNoTitle;
 	public Text qNoTxt;
 	public Text quesTxt;
 	public Text opt1;
@@ -33,10 +36,11 @@ public class RoomUI : MonoBehaviour
 	int frindCrrAns;
 	int frindAllAns;
 	List<int> myAns = new List<int>(); 
-	void Start ()
+	void OnEnable ()
 	{
+		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
-
+		qNoTitle.text = gameManager.allSubjectType[gameManager.currSubjectType];
 	}
 
 	public void CreateRoom (int pTablePrice)

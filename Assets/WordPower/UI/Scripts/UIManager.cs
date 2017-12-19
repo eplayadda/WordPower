@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
 	public GameObject gameInvitePanel;
 	public GameObject friendsListPanel;
 	public GameObject explationPanel;
+	public GameObject subjectSelectionForTestPanel;
 	public Image playerProfilePic;
 
 	private Sprite profilePic;
