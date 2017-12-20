@@ -129,8 +129,12 @@ public class FacebookHandler : MonoBehaviour
 		}	
 	}
 
+	bool isFrndsAvials = false;
+
 	void GetFreindCallback (IResult result)
 	{
+		if (isFrndsAvials)
+			return;
 		string resposne = result.RawResult;
 		Debug.Log (resposne);
 		var data = (Dictionary<string, object>)result.ResultDictionary;
@@ -165,6 +169,7 @@ public class FacebookHandler : MonoBehaviour
 					}
 				});
 			}
+			isFrndsAvials = true;
 		}
 	}
 
