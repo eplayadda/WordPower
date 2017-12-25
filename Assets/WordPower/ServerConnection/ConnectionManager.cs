@@ -17,18 +17,19 @@ using System.Collections.Generic;
 public class ConnectionManager : MonoBehaviour
 {
 	public static ConnectionManager Instance;
-	string HUB_NAME = "SignalRDemo";
+	string HUB_NAME = "eLarning";
 	string CLIENTID = "ClientId";
 	string GETREQUEST = "GetRequest";
 	string ACK_CONNECTED = "receiveAcknowledgement";
 	string CHALLENGEACCEPTED = "ChallengeAccepted";
 	string INPUTRECIVEC = "OnInputRecived";
-	string baseUrl = "http://52.11.67.198/SignalRDemo/";
+//	string baseUrl = "http://52.11.67.198/SignalRDemo/";
 // "http://localhost:1921/SignalRDemo";// "http://52.33.40.224/SignalRDemo";//"http://localhost:1921/SignalRDemo";
-	//	string baseUrl = "http://localhost:1921/SignalRDemo/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
+	//string baseUrl = "http://localhost:1921/SignalRDemo2/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
+	string baseUrl = "http://52.11.67.198/eLarningHub/";
 	public string myID = "1";
 	public string friedID = "1";
-
+    public List<string> onlineFriends = new List<string>();
 	public enum SignalRConectionStatus
 	{
 		None = 0,
@@ -236,9 +237,16 @@ public class ConnectionManager : MonoBehaviour
 
 	public void Ack (Hub hub, MethodCallMessage msg)
 	{
-		UIManager.instance.OnSignalRConnected ();
-		Debug.Log ("Ack");
-	}
+        onlineFriends.Clear();
+        UIManager.instance.OnSignalRConnected ();
+        var str = msg.Arguments[0] as object[];
+        for (int i = 0; i < str.Length; i++)
+        {
+            if(myID != str[i].ToString())
+               onlineFriends.Add(str[i].ToString());
+        }
+        Debug.Log(str[0].ToString()+""+ str.Length);
+    }
 
 
 }

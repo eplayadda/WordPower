@@ -8,5 +8,6 @@ public class FriendsDetails : MonoBehaviour
 	public Text Name;
 	public Image ProfilePic;
 	public long ID;
+    public GameObject onlineIcon;
 
 }
