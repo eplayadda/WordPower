@@ -15,7 +15,7 @@ public class LoginUI : MonoBehaviour
 
 	public void OnFbLoginClicked ()
 	{
-		uiManager.loading.SetActive (true);
+		//uiManager.loading.SetActive (true);
 		SocialManager.Instance.facebookManager.OnFacebookLogin ();
 		//ConnectionManager.Instance.MakeConnection ();
 	}
@@ -30,9 +30,9 @@ public class LoginUI : MonoBehaviour
 
 	public void OnGuestLogin ()
 	{
-		uiManager.loginPanel.SetActive (false);
-		uiManager.gameModePanel.SetActive (true);
-	}
+        uiManager.loading.SetActive(true);
+        ConnectionManager.Instance.MakeConnection();
+    }
 
 	public void SetMyID (int i)
 	{

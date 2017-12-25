@@ -69,7 +69,7 @@ public class FacebookHandler : MonoBehaviour
 		if (!FB.IsLoggedIn) { 
 			CallFBLogin (); 
 		} else {
-			ConnectionManager.Instance.MakeConnection ();
+			//ConnectionManager.Instance.MakeConnection ();
 		}
 	}
 
@@ -98,7 +98,8 @@ public class FacebookHandler : MonoBehaviour
 			var token = Facebook.Unity.AccessToken.CurrentAccessToken;
 			userId = token.UserId.ToString ();
 			ConnectionManager.Instance.myID = userId;
-			ConnectionManager.Instance.MakeConnection ();
+			//ConnectionManager.Instance.MakeConnection ();
+            Debug.Log("__________________________");
 			//OnFacebookShare ();
 		} else if (result.Error != null) {
 			Debug.Log ("Error in Login");
