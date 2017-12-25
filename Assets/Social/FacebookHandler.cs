@@ -25,19 +25,7 @@ public class FacebookHandler : MonoBehaviour
 	private List<GameObject> FriendsObjectList = new List<GameObject> ();
 
 	void Start ()
-	{
-//		StartCoroutine (checkInternetConnection ((isConnected) => {
-//			// handle connection status here
-//			if (isConnected) {
-//				IsInternetAvailabe = true;
-//
-//			} else {
-//				IsInternetAvailabe = false;
-//			}
-//		}));
-		if (!FB.IsInitialized) {
-
-		} 
+	{ 
 		FB.Init (OnInitComplete, OnHideUnity);
 	}
 
@@ -60,10 +48,19 @@ public class FacebookHandler : MonoBehaviour
 		if (FB.IsInitialized) {
 			debugText.text += "\n isInit " + FB.IsInitialized;
 			FB.ActivateApp ();
-
 		}
+
 		Debug.Log ("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
 		debugText.text += "\n LoggedIn " + FB.IsLoggedIn;
+		if (FB.IsLoggedIn) {
+			UIManager.instance.loginPanel.SetActive (false);
+			var token = Facebook.Unity.AccessToken.CurrentAccessToken;
+			userId = token.UserId.ToString ();
+			ConnectionManager.Instance.myID = userId;
+			debugText.text += "\n" + userId; 
+			ConnectionManager.Instance.MakeConnection ();
+			UIManager.instance.loading.SetActive (true);
+		}
 	}
 
 	//Facebook Login
@@ -76,7 +73,8 @@ public class FacebookHandler : MonoBehaviour
 			userId = token.UserId.ToString ();
 			ConnectionManager.Instance.myID = userId;
 			debugText.text += "\n" + userId; 
-			//ConnectionManager.Instance.MakeConnection ();
+			ConnectionManager.Instance.MakeConnection ();
+			UIManager.instance.loading.SetActive (true);
 		}
 	}
 
@@ -108,7 +106,8 @@ public class FacebookHandler : MonoBehaviour
 			userId = token.UserId.ToString ();
 			ConnectionManager.Instance.myID = userId;
 			debugText.text += "\n" + userId;
-			//ConnectionManager.Instance.MakeConnection ();
+			UIManager.instance.loading.SetActive (true);
+			ConnectionManager.Instance.MakeConnection ();
 			//Debug.Log ("__________________________");
 			//OnFacebookShare ();
 		} else if (result.Error != null) {
@@ -175,11 +174,11 @@ public class FacebookHandler : MonoBehaviour
 			string id = resultValue ["id"].ToString ();
 			g.GetComponent<FriendsDetails> ().ID = System.Convert.ToInt64 (id);
 			AddListener (btn, id);
-//			if (ConnectionManager.Instance.onlineFriends.Contains (id)) {
-//				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (true);
-//			} else {
-//				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (false);
-//			}
+			if (ConnectionManager.Instance.onlineFriends.Contains (id)) {
+				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (true);
+			} else {
+				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (false);
+			}
 			if (!string.IsNullOrEmpty (id)) {
 				FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
 					if (avatarResult.Error != null) {

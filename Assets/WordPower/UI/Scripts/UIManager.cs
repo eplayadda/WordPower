@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 	public GameObject explationPanel;
 	public GameObject subjectSelectionForTestPanel;
 	public Image playerProfilePic;
+	public GameObject gameLogo;
 
 	private Sprite profilePic;
 
@@ -34,7 +35,7 @@ public class UIManager : MonoBehaviour
 		loginPanel.GetComponent<LoginUI> ().LoginDone ();
 	}
 
-	public void OnSendRequest (int pTablePrice,int pSubjectType)
+	public void OnSendRequest (int pTablePrice, int pSubjectType)
 	{
 		Debug.Log ("Invte Panel");
 		GameManager.instace.tablePrice = pTablePrice;

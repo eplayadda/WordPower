@@ -25,14 +25,15 @@ public class LoginUI : MonoBehaviour
 		uiManager.loading.SetActive (false);
 		uiManager.loginPanel.SetActive (false);
 		uiManager.gameModePanel.SetActive (true);
+		uiManager.gameLogo.SetActive (false);
 		SocialManager.Instance.facebookManager.PlayerInfo ();
 	}
 
 	public void OnGuestLogin ()
 	{
-        uiManager.loading.SetActive(true);
-        ConnectionManager.Instance.MakeConnection();
-    }
+		uiManager.loading.SetActive (true);
+		ConnectionManager.Instance.MakeConnection ();
+	}
 
 	public void SetMyID (int i)
 	{
