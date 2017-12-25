@@ -14,31 +14,31 @@ public class FacebookHandler : MonoBehaviour
 
 	//public GameObject FriendPrefabRoom;
 	//public Transform parentRoom;
-
+	public Text debugText;
 	private string userId;
 	//private Texture profilePic;
 	//string appStoreLink = "https://play.google.com/store/apps/details?id=com.eplayadda.mindssmash";
 	//string inviteAppLinkUrl = "https://fb.me/350820032015040";
 	private bool IsInternetAvailabe = false;
 	//public Text testText;
+	private List<string> FriendsIdList = new List<string> ();
+	private List<GameObject> FriendsObjectList = new List<GameObject> ();
 
 	void Start ()
 	{
-		StartCoroutine (checkInternetConnection ((isConnected) => {
-			// handle connection status here
-			if (isConnected) {
-				IsInternetAvailabe = true;
-				if (!FB.IsInitialized) {
+//		StartCoroutine (checkInternetConnection ((isConnected) => {
+//			// handle connection status here
+//			if (isConnected) {
+//				IsInternetAvailabe = true;
+//
+//			} else {
+//				IsInternetAvailabe = false;
+//			}
+//		}));
+		if (!FB.IsInitialized) {
 
-					FB.Init (OnInitComplete, OnHideUnity);
-				} else {
-					FB.ActivateApp ();
-				}
-			} else {
-				IsInternetAvailabe = false;
-			}
-		}));
-
+		} 
+		FB.Init (OnInitComplete, OnHideUnity);
 	}
 
 	IEnumerator checkInternetConnection (Action<bool> action)
@@ -58,9 +58,12 @@ public class FacebookHandler : MonoBehaviour
 	private void OnInitComplete ()
 	{
 		if (FB.IsInitialized) {
+			debugText.text += "\n isInit " + FB.IsInitialized;
 			FB.ActivateApp ();
+
 		}
 		Debug.Log ("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
+		debugText.text += "\n LoggedIn " + FB.IsLoggedIn;
 	}
 
 	//Facebook Login
@@ -69,6 +72,10 @@ public class FacebookHandler : MonoBehaviour
 		if (!FB.IsLoggedIn) { 
 			CallFBLogin (); 
 		} else {
+			var token = Facebook.Unity.AccessToken.CurrentAccessToken;
+			userId = token.UserId.ToString ();
+			ConnectionManager.Instance.myID = userId;
+			debugText.text += "\n" + userId; 
 			//ConnectionManager.Instance.MakeConnection ();
 		}
 	}
@@ -87,6 +94,7 @@ public class FacebookHandler : MonoBehaviour
 
 	private void CallFBLogin ()
 	{
+		debugText.text += "\n CallFbLogin";
 		FB.LogInWithReadPermissions (new List<string> (){ "public_profile", "email", "user_friends" }, this.FBLoginCallBack);
 		FB.LogInWithPublishPermissions (new List<string> () { "publish_actions" }, this.FBLoginCallBack);
 	}
@@ -94,14 +102,17 @@ public class FacebookHandler : MonoBehaviour
 	private void FBLoginCallBack (ILoginResult result)
 	{
 		if (result.Error == null) {
+			debugText.text += "Login Success";
 			Debug.Log ("LoginSuccess" + result.RawResult);
 			var token = Facebook.Unity.AccessToken.CurrentAccessToken;
 			userId = token.UserId.ToString ();
 			ConnectionManager.Instance.myID = userId;
+			debugText.text += "\n" + userId;
 			//ConnectionManager.Instance.MakeConnection ();
-            Debug.Log("__________________________");
+			//Debug.Log ("__________________________");
 			//OnFacebookShare ();
 		} else if (result.Error != null) {
+			debugText.text += "\n Error" + result.Error.ToString ();
 			Debug.Log ("Error in Login");
 		}
 
@@ -130,18 +141,22 @@ public class FacebookHandler : MonoBehaviour
 		}	
 	}
 
+	[HideInInspector]
 	bool isFrndsAvials = false;
 
 	void GetFreindCallback (IResult result)
 	{
-		if (isFrndsAvials)
-			return;
+		debugText.text += "\n" + isFrndsAvials.ToString ();
+//		if (isFrndsAvials)
+//			return;
+		DestroyFriendsList ();
 		string resposne = result.RawResult;
 		Debug.Log (resposne);
 		var data = (Dictionary<string, object>)result.ResultDictionary;
 		var tagData = data ["friends"] as Dictionary<string,object>;
 		var resultData = tagData ["data"] as List<object>;
 		//Debug.Log (tagData ["first_name"].ToString ());
+		debugText.text += "\n" + resultData.Count;
 		for (int i = 0; i < resultData.Count; i++) {
 			var resultValue = resultData [i] as Dictionary<string, object>;
 			var picture = resultValue ["picture"] as Dictionary<string ,object>;
@@ -153,21 +168,19 @@ public class FacebookHandler : MonoBehaviour
 			g.transform.SetParent (parentObject);
 			g.transform.localScale = Vector3.one;
 			g.transform.position = Vector3.zero;
+			FriendsObjectList.Add (g);
 			g.GetComponent<FriendsDetails> ().Name.text = resultValue ["first_name"].ToString ();
 			Button btn = g.GetComponentInChildren<Button> ();
 			Debug.Log (resultValue ["first_name"].ToString () + "  , " + resultValue ["id"].ToString ());
 			string id = resultValue ["id"].ToString ();
 			g.GetComponent<FriendsDetails> ().ID = System.Convert.ToInt64 (id);
 			AddListener (btn, id);
-            if (ConnectionManager.Instance.onlineFriends.Contains(id))
-            {
-                g.GetComponent<FriendsDetails>().onlineIcon.SetActive(true);
-            }
-            else
-            {
-                g.GetComponent<FriendsDetails>().onlineIcon.SetActive(false);
-            }
-            if (!string.IsNullOrEmpty (id)) {
+//			if (ConnectionManager.Instance.onlineFriends.Contains (id)) {
+//				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (true);
+//			} else {
+//				g.GetComponent<FriendsDetails> ().onlineIcon.SetActive (false);
+//			}
+			if (!string.IsNullOrEmpty (id)) {
 				FB.API ("https" + "://graph.facebook.com/" + id + "/picture?width=128&height=128", HttpMethod.GET, delegate(IGraphResult avatarResult) {
 					if (avatarResult.Error != null) {
 						Debug.Log (avatarResult.Error);
@@ -180,6 +193,14 @@ public class FacebookHandler : MonoBehaviour
 			}
 			isFrndsAvials = true;
 		}
+	}
+
+	private void DestroyFriendsList ()
+	{
+		for (int i = 0; i < FriendsObjectList.Count; i++) {
+			Destroy (FriendsObjectList [i]);
+		}
+		FriendsObjectList.Clear ();
 	}
 
 	private void AddListener (Button btn, string fbID)
