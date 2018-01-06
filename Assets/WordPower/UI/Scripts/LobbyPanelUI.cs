@@ -88,7 +88,8 @@ public class LobbyPanelUI : MonoBehaviour
 	public void OnClickInviteFriend ()
 	{
 		uiManager.friendsListPanel.SetActive (true);
-		SocialManager.Instance.facebookManager.GetFriends ();
+        ConnectionManager.Instance.GetOnlineFriend();
+		//SocialManager.Instance.facebookManager.GetFriends ();
 	}
 
 	public void UpdateProfilePic (Sprite frndProfile)

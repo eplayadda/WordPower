@@ -23,13 +23,15 @@ public class ConnectionManager : MonoBehaviour
 	string ACK_CONNECTED = "receiveAcknowledgement";
 	string CHALLENGEACCEPTED = "ChallengeAccepted";
 	string INPUTRECIVEC = "OnInputRecived";
-//	string baseUrl = "http://52.11.67.198/SignalRDemo/";
-// "http://localhost:1921/SignalRDemo";// "http://52.33.40.224/SignalRDemo";//"http://localhost:1921/SignalRDemo";
-	//string baseUrl = "http://localhost:1921/SignalRDemo2/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
-	string baseUrl = "http://52.11.67.198/eLarningHub/";
+    //	string baseUrl = "http://52.11.67.198/SignalRDemo/";
+    // "http://localhost:1921/SignalRDemo";// "http://52.33.40.224/SignalRDemo";//"http://localhost:1921/SignalRDemo";
+    //string baseUrl = "http://localhost:1921/SignalRDemo2/";//"http://52.11.67.198/SignalRDemo";// "http://52.33.40.224/SignalRDemo";
+    string baseUrl = "http://www.eplayadda.com/SignalR/eLarningHub/hubs";//"http://52.11.67.198/eLarningHub/";
+	//string baseUrl = "http://localhost:30359/eLarningHub/eLarningHub/";
 	public string myID = "1";
 	public string friedID = "1";
     public List<string> onlineFriends = new List<string>();
+    bool isLatestOnline; 
 	public enum SignalRConectionStatus
 	{
 		None = 0,
@@ -183,7 +185,13 @@ public class ConnectionManager : MonoBehaviour
 
 	List <string> inputData = new List<string> ();
 
-	public void OnServerGameStart ()
+    public void GetOnlineFriend()
+    {
+        isLatestOnline = true;
+        signalRConnection[HUB_NAME].Call("SendOnlineFriend", myID);
+    }
+
+    public void OnServerGameStart ()
 	{
 		inputData.Clear ();
 		inputData.Add (friedID);
@@ -246,6 +254,12 @@ public class ConnectionManager : MonoBehaviour
                onlineFriends.Add(str[i].ToString());
         }
         Debug.Log(str[0].ToString()+""+ str.Length);
+        if (isLatestOnline)
+        {
+            SocialManager.Instance.facebookManager.GetFriends();
+            isLatestOnline = false;
+        }
+
     }
 
 
