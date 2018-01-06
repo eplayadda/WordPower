@@ -7,7 +7,7 @@ public class ResultUI : MonoBehaviour {
 	UIManager uiManager;
 	GameManager gameManager;
 	List<int> myAns;
-	void Start()
+	void OnEnable()
 	{
 		gameManager = GameManager.instace;
 		uiManager = UIManager.instance;
